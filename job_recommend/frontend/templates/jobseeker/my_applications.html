@@ -1,0 +1,103 @@
+{% extends 'base/userloginbase.html' %}
+{% block content %}
+
+<!-- Gradient Header -->
+<section class="text-center py-5" style="background: linear-gradient(to right, #1565c0, #42a5f5); color: white;">
+  <div class="container">
+    <h1 class="display-5 fw-bold">My Applications</h1>
+  </div>
+</section>
+
+<!-- Applications Table with Custom Styling -->
+<section class="py-5 bg-light">
+  <div class="container">
+
+    <style>
+      table {
+        width: 100%;
+        margin: 0 auto 30px auto;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      th, td {
+        padding: 15px 20px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f4f4f4;
+        font-size: 16px;
+        color: #333;
+      }
+
+      tr:nth-child(even) {
+        background-color: #fafafa;
+      }
+
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+
+      .status-icon {
+        font-weight: bold;
+        margin-right: 6px;
+        font-size: 18px;
+        vertical-align: middle;
+      }
+
+      .status-accepted {
+        color: green;
+      }
+
+      .status-pending {
+        color: orange;
+      }
+
+      .status-rejected {
+        color: red;
+      }
+    </style>
+
+    {% if applications %}
+      <table>
+        <thead>
+          <tr>
+            <th>Job Title</th>
+            <th>Company Name</th>
+            <th>Status</th>
+            <th>Applied At</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for app in applications %}
+            <tr>
+              <td>{{ app.job_title }}</td>
+              <td>{{ app.company_name }}</td>
+              <td>
+                {% if app.status == 'Accepted' %}
+                  <span class="status-icon status-accepted">&#9679;</span>{{ app.status }}
+                {% elif app.status == 'Pending' %}
+                  <span class="status-icon status-pending">&#9679;</span>{{ app.status }}
+                {% elif app.status == 'Rejected' %}
+                  <span class="status-icon status-rejected">&#9679;</span>{{ app.status }}
+                {% else %}
+                  {{ app.status }}
+                {% endif %}
+              </td>
+              <td>{{ app.applied_at_formatted }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="text-center py-5">
+        <p class="text-muted fs-5">You haven't applied to any jobs yet.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base/userloginbase.html' %}
+
+{% block content %}
+<!-- Header -->
+<section class="text-center py-5" style="background: linear-gradient(to right, #1565c0, #42a5f5); color: white;">
+  <div class="container">
+    <h1 class="display-5 fw-bold">{{ job.title }}</h1>
+    <p class="lead">{{ job.company_name }}</p>
+  </div>
+</section>
+
+<!-- Job Detail Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="bg-white p-4 rounded-4 shadow-sm mx-auto" style="max-width: 800px;">
+      
+      {% if error %}
+        <p class="text-danger fw-bold">{{ error }}</p>
+      {% endif %}
+
+      {% if job.logo %}
+        <div class="text-center mb-4">
+          <img src="{{ job.logo }}" alt="Logo" class="rounded" style="max-height: 80px;">
+        </div>
+      {% endif %}
+
+      <div class="mb-3">
+        <h4 class="fw-bold text-primary">{{ job.title }}</h4>
+        <p class="mb-1"><strong>Company:</strong> {{ job.company_name }}</p>
+        <p class="mb-1"><strong>Website:</strong> <a href="{{ job.website }}" target="_blank">{{ job.website }}</a></p>
+        <p class="mb-1"><strong>Description:</strong> {{ job.description }}</p>
+        <p class="mb-1"><strong>Requirements:</strong> {{ job.requirements }}</p>
+        <p class="mb-1"><strong>Location:</strong> {{ job.location }}</p>
+        <p class="mb-1"><strong>Salary:</strong> {{ job.salary_range }}</p>
+        <p class="mb-1"><strong>Deadline:</strong> {{ job.application_deadline }}</p>
+        <p class="mb-4"><strong>Openings:</strong> {{ job.no_opening }}</p>
+      </div>
+
+      <!-- Apply Button -->
+      {% if is_applied %}
+        <p class="text-success"><strong>Status:</strong> Already Applied</p>
+      {% else %}
+        <form action="{% url 'apply-job-form' job.id %}" method="get" class="d-inline">
+          <button type="submit" class="btn btn-success rounded-pill px-4">Apply Now</button>
+        </form>
+      {% endif %}
+
+      <!-- Save / Unsave Button -->
+      <form method="POST" class="d-inline ms-2">
+        {% csrf_token %}
+        {% if is_saved %}
+          <input type="hidden" name="action" value="unsave">
+          <button type="submit" class="btn btn-danger rounded-pill px-4">Unsave</button>
+        {% else %}
+          <input type="hidden" name="action" value="save">
+          <button type="submit" class="btn btn-outline-primary rounded-pill px-4">Save Job</button>
+        {% endif %}
+      </form>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

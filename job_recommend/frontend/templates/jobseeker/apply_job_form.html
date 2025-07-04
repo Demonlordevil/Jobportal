@@ -1,0 +1,70 @@
+{% extends 'base/userloginbase.html' %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="text-center py-5" style="background: linear-gradient(to right, #0d47a1, #42a5f5); color: white;">
+  <div class="container">
+    <h1 class="display-5 fw-bold">Apply for Job #{{ job_id }}</h1>
+    <p class="lead mt-3">Check your profile and apply with your updated resume.</p>
+  </div>
+</section>
+
+<!-- Profile and Application Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center gy-4">
+
+      <!-- Profile Card -->
+      <div class="col-lg-6">
+        <div class="p-5 bg-white shadow-sm rounded-4 h-100">
+          <h3 class="text-primary text-center mb-4">Profile Details</h3>
+          <p><strong>Name:</strong> {{ profile.name }}</p>
+          <p><strong>Email:</strong> {{ profile.email }}</p>
+          <p><strong>Skills:</strong> {{ profile.skills }}</p>
+          <p><strong>Location:</strong> {{ profile.location }}</p>
+          <p><strong>Experience:</strong> {{ profile.experience }} years</p>
+          <p><strong>Education:</strong> {{ profile.education }}</p>
+          <p><strong>Expected Salary:</strong> ₹{{ profile.salary_expectation }}</p>
+          <p><strong>Contact Number:</strong> {{ profile.contact_number }}</p>
+          <p><strong>Resume:</strong> 
+            <a href="{{ profile.resume }}" class="text-decoration-none text-primary fw-semibold" download>Download</a>
+          </p>
+
+          <div class="text-center mt-4">
+            <a href="{% url 'edit_user_profile' %}" class="btn btn-primary px-4 py-2 rounded-pill fw-bold">Edit Profile</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Application Form Card -->
+      <div class="col-lg-6">
+        <div class="p-5 bg-white shadow-sm rounded-4 h-100">
+          <h4 class="text-center text-success mb-4">Submit Application</h4>
+          <form method="post" enctype="multipart/form-data" action="{% url 'submit-application' job_id=job_id %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="resume_file" class="form-label">Upload Resume:</label>
+              <input type="file" name="resume_file" id="resume_file" class="form-control" required>
+            </div>
+            <div class="text-center mt-4">
+              <button type="submit" class="btn btn-success px-4 py-2 rounded-pill">Submit Application</button>
+            </div>
+          </form>
+
+          {% if messages %}
+            <div class="mt-4">
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} rounded-pill text-center">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

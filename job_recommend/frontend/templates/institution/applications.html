@@ -1,0 +1,162 @@
+{% extends "base/institutionloginbase.html" %}
+{% block content %}
+<h2 style="text-align: center; margin-bottom: 20px;">All Applications (Sorted by Job Title)</h2>
+
+{% if error %}
+  <p style="text-align: center; color: red;">{{ error }}</p>
+{% endif %}
+
+{% if applications %}
+  <style>
+    table {
+      width: 90%;
+      margin: 0 auto 30px auto;
+      border-collapse: collapse;
+      font-family: Arial, sans-serif;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      padding: 15px 20px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f4f4f4;
+      font-size: 16px;
+      color: #333;
+    }
+
+    tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    select, button {
+      padding: 6px 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      color: white;
+      cursor: pointer;
+    }
+
+    .update-btn {
+      background-color: #007bff;
+    }
+
+    .update-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .save-btn {
+      background-color: #28a745;
+    }
+
+    .save-btn:hover {
+      background-color: #218838;
+    }
+
+    .unsave-btn {
+      background-color: #dc3545;
+    }
+
+    .unsave-btn:hover {
+      background-color: #c82333;
+    }
+
+    .status-icon {
+      font-weight: bold;
+      margin-right: 6px;
+      font-size: 18px;
+      vertical-align: middle;
+    }
+
+    .status-accepted {
+      color: green;
+    }
+
+    .status-pending {
+      color: orange;
+    }
+
+    .status-rejected {
+      color: red;
+    }
+  </style>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Job Title</th>
+        <th>Name</th>
+        <th>Applicant Email</th>
+        <th>Status</th>
+        <th>Resume</th>
+        <th>Update Status</th>
+        <th>Save/Unsave</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for app in applications %}
+      <tr>
+        <td>{{ app.job_title }}</td>
+        <td>{{ app.profile_data.name|default:"N/A" }}</td>
+        <td>{{ app.email }}</td>
+        <td>
+          {% if app.status == "Accepted" %}
+            <span class="status-icon status-accepted">&#9679;</span>{{ app.status }}
+          {% elif app.status == "Pending" %}
+            <span class="status-icon status-pending">&#9679;</span>{{ app.status }}
+          {% elif app.status == "Rejected" %}
+            <span class="status-icon status-rejected">&#9679;</span>{{ app.status }}
+          {% else %}
+            {{ app.status }}
+          {% endif %}
+        </td>
+        <td>
+          {% if app.resume_url %}
+            <a href="{{ app.resume_url }}" target="_blank">View Resume</a>
+          {% else %}
+            <span style="color: #999;">Not Provided</span>
+          {% endif %}
+        </td>
+        <td>
+          <form method="post" action="{% url 'update-application-status' app.id %}">
+            {% csrf_token %}
+            <select name="status">
+              <option value="Pending" {% if app.status == "Pending" %}selected{% endif %}>Pending</option>
+              <option value="Accepted" {% if app.status == "Accepted" %}selected{% endif %}>Accept</option>
+              <option value="Rejected" {% if app.status == "Rejected" %}selected{% endif %}>Reject</option>
+            </select>
+            <button type="submit" class="update-btn">Update</button>
+          </form>
+        </td>
+        <td>
+          {% if app.is_saved %}
+            <form method="post" action="{% url 'unsave-application' app.id %}">
+              {% csrf_token %}
+              <button type="submit" class="unsave-btn">Unsave</button>
+            </form>
+          {% else %}
+            <form method="post" action="{% url 'save-application' app.id %}">
+              {% csrf_token %}
+              <button type="submit" class="save-btn">Save</button>
+            </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p style="text-align: center;">No applications found.</p>
+{% endif %}
+{% endblock %}

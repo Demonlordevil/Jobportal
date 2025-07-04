@@ -1,0 +1,34 @@
+{% extends 'base/userloginbase.html' %}
+
+{% block content %}
+<!-- Header -->
+<section class="text-center py-5" style="background: linear-gradient(to right, #1565c0, #42a5f5); color: white;">
+  <div class="container">
+    <h1 class="display-5 fw-bold">Available Jobs</h1>
+  </div>
+</section>
+
+<!-- Jobs List -->
+<section class="py-5 bg-light">
+  <div class="container" style="max-width: 900px;">
+    {% for job in jobs %}
+      <div class="d-flex align-items-center bg-white p-3 rounded-4 shadow-sm mb-3">
+        {% if job.logo %}
+          <img src="{{ job.logo }}" alt="Logo" class="rounded" style="width: 60px; height: 60px; object-fit: cover; margin-right: 20px;">
+        {% else %}
+          <div class="bg-secondary text-white rounded d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; margin-right: 20px;">
+            <strong>N/A</strong>
+          </div>
+        {% endif %}
+        <div class="flex-grow-1">
+          <h5 class="mb-1">{{ job.title }}</h5>
+          <p class="mb-0 text-muted">{{ job.company_name }}</p>
+        </div>
+        <a class="btn btn-primary rounded-pill px-3 ms-3" href="{% url 'job-detail' job.id %}">Show More</a>
+      </div>
+    {% empty %}
+      <p class="text-center text-muted">No jobs available at the moment.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

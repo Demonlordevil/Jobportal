@@ -1,0 +1,62 @@
+{% extends 'base/unloginbase.html' %}
+
+{% block content %}
+
+<!-- Header Section -->
+<section class="py-5 text-center" style="background: linear-gradient(to right, #1976d2, #42a5f5); color: white;">
+  <div class="container">
+    <h1 class="fw-bold">Create Institution Profile</h1>
+    <p class="lead mt-2">Set up your institution's profile to begin showcasing opportunities and resources.</p>
+  </div>
+</section>
+
+<!-- Create Form Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card p-4 shadow-lg border-0 rounded-4 bg-white">
+          <h3 class="text-center text-primary fw-bold mb-4">Enter Institution Details</h3>
+
+          {% if messages %}
+            <div class="alert alert-info">
+              {% for message in messages %}
+                <p class="mb-0">{{ message }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="location" class="form-label">Location</label>
+              <input type="text" class="form-control" id="location" name="location" required>
+            </div>
+            <div class="mb-3">
+              <label for="contact_number" class="form-label">Contact Number</label>
+              <input type="text" class="form-control" id="contact_number" name="contact_number" required>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="website" class="form-label">Website</label>
+              <input type="url" class="form-control" id="website" name="website" required>
+            </div>
+            <div class="mb-4">
+              <label for="logo" class="form-label">Logo</label>
+              <input type="file" class="form-control" id="logo" name="logo">
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill">Create Profile</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

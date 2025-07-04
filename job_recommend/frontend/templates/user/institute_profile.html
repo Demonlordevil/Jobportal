@@ -1,0 +1,11 @@
+{% extends 'base/institutionloginbase.html' %}
+{% block content %}
+
+<body>
+    <h2>Welcome Institute, {{ profile.name }}</h2>
+    <p><strong>Email:</strong> {{ profile.email }}</p>
+    <p><strong>Institute ID:</strong> {{ profile.id }}</p>
+    <a href="{% url 'login_institute' %}">Logout</a>
+  </body>
+
+{% endblock %}

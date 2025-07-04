@@ -1,0 +1,51 @@
+{% extends 'base/userloginbase.html' %}
+
+{% block content %}
+
+<!-- Header Section -->
+<section class="text-center py-5" style="background: linear-gradient(to right, #0d47a1, #42a5f5); color: white;">
+  <div class="container">
+    <h1 class="display-5 fw-bold">Skill Gap Analyzer</h1>
+    <p class="lead mt-3">Analyze the skills you need for your desired role compared to your current skills.</p>
+  </div>
+</section>
+
+<!-- Form & Results Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="p-4 bg-white shadow-sm rounded-4">
+
+          <!-- Form -->
+          <form method="post" action="">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="desired_role" class="form-label fw-semibold">Desired Role</label>
+              <input type="text" id="desired_role" name="desired_role" class="form-control" placeholder="e.g. Data Scientist" required>
+            </div>
+            <button type="submit" class="btn btn-primary rounded-pill px-4 py-2 fw-bold">Analyze</button>
+          </form>
+
+          <!-- Error Message -->
+          {% if error_msg %}
+            <p class="text-danger mt-3">{{ error_msg }}</p>
+          {% endif %}
+
+          <!-- Results -->
+          {% if result %}
+            <hr class="my-4">
+            <h3 class="text-primary">Results for <em>{{ result.desired_role }}</em></h3>
+            <p><strong>Required Skills:</strong> {{ result.required_skills|join:", " }}</p>
+            <p><strong>Your Skills:</strong> {{ result.provided_skills|join:", " }}</p>
+            <p><strong>Missing Skills:</strong> {{ result.missing_skills|join:", " }}</p>
+            <p><strong>Total Missing:</strong> {{ result.total_missing }}</p>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

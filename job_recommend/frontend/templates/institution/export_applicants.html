@@ -1,0 +1,204 @@
+{% extends 'base/institutionloginbase.html' %}
+
+{% block content %}
+<h2 style="text-align: center; margin-bottom: 20px;">Export Applicants</h2>
+
+{% if error %}
+  <div style="color: red; text-align: center; margin-bottom: 10px;">{{ error }}</div>
+{% endif %}
+
+<style>
+  table {
+    width: 90%;
+    margin: 20px auto 30px auto;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  th, td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f4f4f4;
+    font-size: 16px;
+    color: #333;
+  }
+
+  tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  .filter-container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .filter-container select,
+  .filter-container button {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    color: white;
+  }
+
+  .btn-success:hover {
+    background-color: #218838;
+  }
+
+  .btn-info {
+    background-color: #17a2b8;
+    color: white;
+  }
+
+  .btn-info:hover {
+    background-color: #117a8b;
+  }
+
+  .status-icon {
+    font-weight: bold;
+    margin-right: 6px;
+  }
+
+  .status-accepted {
+    color: green;
+  }
+
+  .status-pending {
+    color: orange;
+  }
+
+  .status-rejected {
+    color: red;
+  }
+</style>
+
+<form method="get" class="filter-container">
+  <div>
+    <label for="status">Filter by Status:</label><br>
+    <select name="status" id="status">
+      <option value="">All</option>
+      <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+      <option value="accepted" {% if status_filter == 'accepted' %}selected{% endif %}>Accepted</option>
+      <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
+    </select>
+  </div>
+
+  <div>
+    <button type="submit" class="btn-primary">Apply Filter</button>
+  </div>
+
+  <div style="margin-left: auto;">
+    <label>Export Format:</label><br>
+    <button id="downloadCsv" class="btn-success" type="button" {% if not applicants %}disabled{% endif %}>
+      Download CSV
+    </button>
+    <button id="downloadXlsx" class="btn-info" type="button" {% if not applicants %}disabled{% endif %}>
+      Download XLSX
+    </button>
+  </div>
+</form>
+
+<table id="applicantsTable">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Applied At</th>
+      <th>Status</th>
+      <th>Location</th>
+      <th>Experience</th>
+      <th>Skills</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for app in applicants %}
+      <tr>
+        <td>{{ app.email }}</td>
+        <td>{{ app.applied_at_formatted|default:app.applied_at }}</td>
+        <td>
+          {% if app.status == "Accepted" %}
+            <span class="status-icon status-accepted">&#9679;</span>{{ app.status }}
+          {% elif app.status == "Pending" %}
+            <span class="status-icon status-pending">&#9679;</span>{{ app.status }}
+          {% elif app.status == "Rejected" %}
+            <span class="status-icon status-rejected">&#9679;</span>{{ app.status }}
+          {% else %}
+            {{ app.status }}
+          {% endif %}
+        </td>
+        <td>{{ app.profile_data.location }}</td>
+        <td>{{ app.profile_data.experience }}</td>
+        <td>{{ app.profile_data.skills }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="6" style="text-align: center;">No applicants found.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Export scripts -->
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<script>
+  function downloadCSV() {
+    let table = document.getElementById("applicantsTable");
+    let rows = table.querySelectorAll("tr");
+    let csv = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      let cols = rows[i].querySelectorAll("th, td");
+      let row = [];
+      for (let j = 0; j < cols.length; j++) {
+        let text = cols[j].innerText.replace(/"/g, '""');
+        row.push('"' + text + '"');
+      }
+      csv.push(row.join(","));
+    }
+
+    let csvString = csv.join("\n");
+    let blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+    let url = URL.createObjectURL(blob);
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = "applicants.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function downloadXLSX() {
+    let table = document.getElementById("applicantsTable");
+    let wb = XLSX.utils.table_to_book(table, { sheet: "Applicants" });
+    XLSX.writeFile(wb, "applicants.xlsx");
+  }
+
+  document.getElementById("downloadCsv").addEventListener("click", downloadCSV);
+  document.getElementById("downloadXlsx").addEventListener("click", downloadXLSX);
+</script>
+
+{% endblock %}

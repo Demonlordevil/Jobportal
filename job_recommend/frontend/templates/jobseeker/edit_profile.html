@@ -1,0 +1,86 @@
+{% extends 'base/userloginbase.html' %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="text-center py-5" style="background: linear-gradient(to right, #0d47a1, #42a5f5); color: white;">
+  <div class="container">
+    <h1 class="display-5 fw-bold">Edit Your Profile</h1>
+    <p class="lead mt-3">Keep your profile up to date to get the best job matches.</p>
+  </div>
+</section>
+
+<!-- Edit Form Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="p-5 bg-white shadow-sm rounded-4">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-success" role="alert">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-3">
+              <label for="name" class="form-label fw-semibold">Full Name:</label>
+              <input type="text" class="form-control rounded-3" id="name" name="name" value="{{ profile.name }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label fw-semibold">Email:</label>
+              <input type="email" class="form-control rounded-3" id="email" name="email" value="{{ profile.email }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="skills" class="form-label fw-semibold">Skills:</label>
+              <input type="text" class="form-control rounded-3" id="skills" name="skills" value="{{ profile.skills }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="experience" class="form-label fw-semibold">Experience (in years):</label>
+              <input type="number" class="form-control rounded-3" id="experience" name="experience" value="{{ profile.experience }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="education" class="form-label fw-semibold">Education:</label>
+              <input type="text" class="form-control rounded-3" id="education" name="education" value="{{ profile.education }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="salary_expectation" class="form-label fw-semibold">Expected Salary (in ₹):</label>
+              <input type="number" class="form-control rounded-3" id="salary_expectation" name="salary_expectation" value="{{ profile.salary_expectation }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="location" class="form-label fw-semibold">Location:</label>
+              <input type="text" class="form-control rounded-3" id="location" name="location" value="{{ profile.location }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="contact_number" class="form-label fw-semibold">Contact Number:</label>
+              <input type="text" class="form-control rounded-3" id="contact_number" name="contact_number" value="{{ profile.contact_number }}" required>
+            </div>
+
+            <div class="mb-4">
+              <label for="resume" class="form-label fw-semibold">Upload New Resume (PDF):</label>
+              <input type="file" class="form-control rounded-3" id="resume" name="resume" accept=".pdf">
+            </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill fw-bold">Update Profile</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

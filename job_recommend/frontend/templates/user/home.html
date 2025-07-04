@@ -1,0 +1,51 @@
+{% extends 'base/unloginbase.html' %}
+
+{% block content %}
+<section class="text-center py-5" style="background: linear-gradient(to right, #1976d2, #42a5f5); color: white;">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Welcome to Real-Time Job Market & Salary Insights Tracker</h1>
+        <p class="lead mt-3">Empowering job seekers and institutions with real-time data and insights.</p>
+        <div class="mt-4 d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{% url 'register_user' %}" class="btn btn-outline-light btn-lg px-4 rounded-pill">Register as User</a>
+            <a href="{% url 'register_institute' %}" class="btn btn-outline-light btn-lg px-4 rounded-pill">Register as Institution</a>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5 fw-bold text-primary">Why Choose Us?</h2>
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-lg p-4 border-0 rounded-4 h-100">
+                    <h4 class="text-primary">Real-Time Insights</h4>
+                    <p class="mt-3">Get up-to-date job listings and salary info tailored to your needs.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-lg p-4 border-0 rounded-4 h-100">
+                    <h4 class="text-primary">Custom Recommendations</h4>
+                    <p class="mt-3">Our system learns your preferences to deliver smarter job matches.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-lg p-4 border-0 rounded-4 h-100">
+                    <h4 class="text-primary">Profiles for All</h4>
+                    <p class="mt-3">Create personalized dashboards — for both job seekers and institutions.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="bg-light py-5">
+    <div class="container text-center">
+        <h2 class="fw-bold text-primary">Join Us Today</h2>
+        <p class="mt-3">Whether you're seeking your dream job or the perfect candidate — we’ve got you.</p>
+        <div class="mt-4 d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{% url 'login_user' %}" class="btn btn-primary px-4 py-2 rounded-pill">Login as User</a>
+            <a href="{% url 'login_institute' %}" class="btn btn-secondary px-4 py-2 rounded-pill">Login as Institution</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

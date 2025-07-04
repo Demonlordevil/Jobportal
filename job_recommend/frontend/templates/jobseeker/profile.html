@@ -1,0 +1,59 @@
+{% extends 'base/userloginbase.html' %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="text-center py-5" style="background: linear-gradient(to right, #0d47a1, #42a5f5); color: white;">
+  <div class="container">
+    <h1 class="display-5 fw-bold">Your Profile</h1>
+    <p class="lead mt-3">Manage your information to get the most relevant job matches and insights.</p>
+  </div>
+</section>
+
+<!-- Profile Information Card -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="p-5 bg-white shadow-sm rounded-4">
+          <h3 class="text-primary text-center mb-4">Profile Details</h3>
+
+          <div class="mb-3">
+            <p><strong>Name:</strong> {{ profile.name }}</p>
+          </div>
+          <div class="mb-3">
+            <p><strong>Email:</strong> {{ profile.email }}</p>
+          </div>
+          <div class="mb-3">
+            <p><strong>Skills:</strong> {{ profile.skills }}</p>
+          </div>
+          <div class="mb-3">
+            <p><strong>Location:</strong> {{ profile.location }}</p>
+          </div>
+          <div class="mb-3">
+            <p><strong>Experience:</strong> {{ profile.experience }} years</p>
+          </div>
+          <div class="mb-3">
+            <p><strong>Education:</strong> {{ profile.education }}</p>
+          </div>
+          <div class="mb-3">
+            <p><strong>Expected Salary:</strong> ₹{{ profile.salary_expectation }}</p>
+          </div>
+          <div class="mb-3">
+            <p><strong>Contact Number:</strong> {{ profile.contact_number }}</p>
+          </div>
+
+          <p><strong>Resume:</strong> <a href="{{ profile.resume }}" class="text-decoration-none text-primary fw-semibold" download>Download</a></p>
+          
+
+          <div class="text-center mt-4">
+            <a href="{% url 'edit_user_profile' %}" class="btn btn-primary px-4 py-2 rounded-pill fw-bold">Edit Profile</a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

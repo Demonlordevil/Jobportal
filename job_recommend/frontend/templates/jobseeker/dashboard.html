@@ -1,0 +1,35 @@
+{% extends 'base/userloginbase.html' %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="text-center py-5" style="background: linear-gradient(to right, #0d47a1, #42a5f5); color: white;">
+  <div class="container">
+    <h1 class="display-5 fw-bold">Welcome to Your Dashboard!</h1>
+    <p class="lead mt-3">Manage your profile and explore personalized job recommendations.</p>
+  </div>
+</section>
+
+<!-- Profile Summary Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="bg-white shadow-sm p-5 rounded-4">
+          <h4 class="text-primary fw-bold mb-4">Your Profile Summary</h4>
+          <p><strong>Name:</strong> {{ profile.name }}</p>
+          <p><strong>Location:</strong> {{ profile.location }}</p>
+          <p><strong>Contact Number:</strong> {{ profile.contact_number }}</p>
+          
+            <p><strong>Resume:</strong> <a href="{{ profile.resume }}" class="text-decoration-none text-primary fw-semibold" download>Download</a></p>
+
+          <div class="mt-4 text-center">
+            <a href="{% url 'view_user_profile' %}" class="btn btn-outline-primary rounded-pill px-4 me-2">View Profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

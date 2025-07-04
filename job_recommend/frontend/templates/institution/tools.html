@@ -1,0 +1,76 @@
+{% extends 'base/institutionloginbase.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="text-center py-5" style="background: linear-gradient(to right, #1976d2, #42a5f5); color: white;">
+  <div class="container">
+    <h1 class="display-5 fw-bold">Institution Tools</h1>
+    <p class="lead mt-3">Access all your tools to manage jobs, applicants, and performance in one place.</p>
+  </div>
+</section>
+
+<!-- Tools Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="mb-5 fw-bold text-primary text-center">Institution Tools</h2>
+    <div class="row g-4">
+
+      <!-- Job Post Performance Tracker -->
+      <div class="col-md-4">
+        <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+          <h5 class="fw-bold text-primary"><i class="bi bi-graph-up-arrow me-2"></i>Job Post Performance</h5>
+          <ul class="text-muted small ps-3">
+            <li>Views per job</li>
+            <li>Applications per job</li>
+            <li>Time-to-hire metrics</li>
+          </ul>
+          <a href="{% url 'performance-dashboard' %}" class="btn btn-outline-primary btn-sm rounded-pill">Track Performance</a>
+        </div>
+      </div>
+
+      <!-- Bulk Applicant Download -->
+      <div class="col-md-4">
+        <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+          <h5 class="fw-bold text-primary"><i class="bi bi-download me-2"></i>Export Applicants</h5>
+          <ul class="text-muted small ps-3">
+            <li>Download as CSV/XLSX</li>
+            <li>Filter before export</li>
+          </ul>
+          <a href="{% url 'export_applicants' %}" class="btn btn-outline-primary btn-sm rounded-pill">Export</a>
+        </div>
+      </div>
+
+      <!-- Saved Candidates -->
+      <div class="col-md-4">
+        <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+          <h5 class="fw-bold text-primary"><i class="bi bi-bookmark-check me-2"></i>Saved Candidates</h5>
+          <ul class="text-muted small ps-3">
+            <li>Bookmark applicants</li>
+            <li>View notes & profiles</li>
+          </ul>
+          <a href="{% url 'saved-applications' %}" class="btn btn-outline-primary btn-sm rounded-pill">View Saved</a>
+        </div>
+      </div>
+
+      <!-- Post New Jobs -->
+      <div class="col-md-4">
+        <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+          <h5 class="fw-bold text-primary"><i class="bi bi-file-earmark-plus me-2"></i>Post New Jobs</h5>
+          <p class="text-muted small">Easily create and publish job posts.</p>
+          <a href="{% url 'create_job_post' %}" class="btn btn-outline-primary btn-sm rounded-pill">Post Jobs</a>
+        </div>
+      </div>
+
+      <!-- View Applicants -->
+      <div class="col-md-4">
+        <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+          <h5 class="fw-bold text-primary"><i class="bi bi-people me-2"></i>View Applicants</h5>
+          <p class="text-muted small">See who applied and manage their profiles.</p>
+          <a href="{% url 'institution-applications' %}" class="btn btn-outline-primary btn-sm rounded-pill">Manage Applicants</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,162 @@
+{% extends 'base/institutionloginbase.html' %}
+
+{% block content %}
+<h2 style="text-align: center; margin-bottom: 20px;">Job Performance Dashboard</h2>
+
+<style>
+  table {
+    width: 90%;
+    margin: 20px auto 30px auto;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  th, td {
+    padding: 15px 20px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f4f4f4;
+    font-size: 16px;
+    color: #333;
+  }
+
+  tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  td {
+    font-size: 15px;
+    color: #333;
+  }
+
+  .fallback {
+    color: #999;
+    font-style: italic;
+  }
+
+  .export-buttons {
+    width: 90%;
+    margin: 0 auto 20px auto;
+    text-align: right;
+  }
+
+  .btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+
+  .btn-success:hover {
+    background-color: #218838;
+  }
+
+  .btn-info {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .btn-info:hover {
+    background-color: #117a8b;
+  }
+
+  .btn-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+</style>
+
+<div class="export-buttons">
+  <button id="downloadCsv" type="button" class="btn-success" {% if not jobs %}disabled class="btn-disabled"{% endif %}>
+    Download CSV
+  </button>
+  <button id="downloadXlsx" type="button" class="btn-info" {% if not jobs %}disabled class="btn-disabled"{% endif %}>
+    Download XLSX
+  </button>
+</div>
+
+<table id="jobsTable">
+  <thead>
+    <tr>
+      <th>Job Title</th>
+      <th>Views</th>
+      <th>Applications</th>
+      <th>Avg Time to Hire (days)</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for job in jobs %}
+      <tr>
+        <td>{{ job.job_title }}</td>
+        <td>{{ job.views }}</td>
+        <td>{{ job.applications }}</td>
+        <td>
+          {% if job.time_to_hire_days is not None %}
+            {{ job.time_to_hire_days }}
+          {% else %}
+          <span class="fallback">–</span>
+          {% endif %}
+        </td>
+
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="4" style="text-align: center;">No job performance data available.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Export scripts -->
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<script>
+  function downloadCSV() {
+    const table = document.getElementById("jobsTable");
+    const rows = table.querySelectorAll("tr");
+    const csv = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      const cols = rows[i].querySelectorAll("th, td");
+      const row = [];
+      for (let j = 0; j < cols.length; j++) {
+        let text = cols[j].innerText.replace(/"/g, '""').trim();
+        row.push('"' + text + '"');
+      }
+      csv.push(row.join(","));
+    }
+
+    const csvString = csv.join("\n");
+    const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "job_performance.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function downloadXLSX() {
+    const table = document.getElementById("jobsTable");
+    const wb = XLSX.utils.table_to_book(table, { sheet: "Job Performance" });
+    XLSX.writeFile(wb, "job_performance.xlsx");
+  }
+
+  document.getElementById("downloadCsv").addEventListener("click", downloadCSV);
+  document.getElementById("downloadXlsx").addEventListener("click", downloadXLSX);
+</script>
+{% endblock %}

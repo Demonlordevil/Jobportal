@@ -1,0 +1,69 @@
+{% extends 'base/userloginbase.html' %}
+
+{% block content %}
+<!-- Hero Header -->
+<section class="text-center py-5" style="background: linear-gradient(to right, #1565c0, #42a5f5); color: white;">
+  <div class="container">
+    <h1 class="display-5 fw-bold">Your Tools</h1>
+    <p class="lead mt-3">Empowering your job search with smart tools and insights.</p>
+  </div>
+</section>
+
+<!-- Jobseeker Tools Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <h2 class="mb-5 fw-bold text-primary text-center">Jobseeker Tools</h2>
+    <div class="row g-4">
+
+      <!-- 1. Apply for Jobs -->
+      <div class="col-md-4">
+        <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+          <h5 class="fw-bold text-primary"><i class="bi bi-briefcase me-2"></i>Apply for Jobs</h5>
+          <p class="text-muted small">Browse and apply to the latest job listings tailored to your profile.</p>
+          <a href="{% url 'job_list' %}" class="btn btn-outline-primary btn-sm rounded-pill">Start Applying</a>
+        </div>
+      </div>
+
+      <!-- 2. Applied Job Tracker -->
+      <div class="col-md-4">
+        <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+          <h5 class="fw-bold text-primary"><i class="bi bi-check2-circle me-2"></i>Applied Job Tracker</h5>
+          <p class="text-muted small">Track jobs you’ve applied to and get updates on their status.</p>
+          <a href="{% url 'my_applications' %}" class="btn btn-outline-primary btn-sm rounded-pill">Track Applications</a>
+        </div>
+      </div>
+
+      <!-- 3. Personalized Job Recommendations -->
+      <div class="col-md-4">
+        <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+          <h5 class="fw-bold text-primary"><i class="bi bi-stars me-2"></i>Personalized Recommendations</h5>
+          <p class="text-muted small">Jobs matched to your profile, skills, and interests.</p>
+          <a href="{% url 'recommendations' %}" class="btn btn-outline-primary btn-sm rounded-pill">View Recommendations</a>
+        </div>
+      </div>
+
+
+      <!-- 6. Saved Jobs -->
+      <div class="col-md-4">
+        <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+          <h5 class="fw-bold text-primary"><i class="bi bi-bookmark-star me-2"></i>Saved Jobs</h5>
+          <p class="text-muted small">Manage bookmarked jobs to apply later.</p>
+          <a href="{% url 'saved_jobs_list' %}" class="btn btn-outline-primary btn-sm rounded-pill">View Saved Jobs</a>
+        </div>
+      </div>
+
+
+      <!-- 8. Skill Gap Analyzer -->
+      <div class="col-md-4">
+        <div class="bg-white p-4 rounded-4 shadow-sm h-100">
+          <h5 class="fw-bold text-primary"><i class="bi bi-lightbulb me-2"></i>Skill Gap Analyzer</h5>
+          <p class="text-muted small">Know what skills you need for your dream role.</p>
+          <a href="{% url 'skill-gap-analyzer' %}" class="btn btn-outline-primary btn-sm rounded-pill">Analyze Skills</a>
+        </div>
+      </div>
+
+      
+      
+  </div>
+</section>
+{% endblock %}

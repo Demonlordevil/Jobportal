@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}AVS{% endblock %}</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    .navbar-custom {
+      background: linear-gradient(90deg, #0a192f, #1c3d5a, #3282b8);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 1.6rem;
+      color: #ffffff !important;
+    }
+    .navbar-nav .nav-link {
+      color: #e0f7fa !important;
+      font-weight: 500;
+      margin-right: 12px;
+    }
+    .nav-link.text-danger {
+      color: #ff6b6b !important;
+    }
+    .nav-link.text-danger:hover {
+      color: #ff3b3b !important;
+    }
+    .form-control:focus {
+      border-color: #64b5f6;
+      box-shadow: 0 0 0 0.2rem rgba(100, 181, 246, 0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Institution Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container-fluid">
+      <!-- Brand/Logo -->
+      <a class="navbar-brand" href="#">AVS</a>
+
+      <!-- Mobile toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#institutionNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Navbar items -->
+      <div class="collapse navbar-collapse justify-content-end" id="institutionNavbar">
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'dashboard_institution' %}"> Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'institution_tools' %}"> Tools</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'view_institution_profile' %}"> Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'about_institute' %}"> About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'contact_institute' %}"> Contact Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-danger" href="{% url 'login_institute' %}"> Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

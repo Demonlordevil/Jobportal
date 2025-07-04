@@ -1,0 +1,137 @@
+{% extends "base/institutionloginbase.html" %}
+{% block content %}
+<h2 style="text-align: center; margin-bottom: 20px;">Saved Applications</h2>
+
+{% if error %}
+  <div style="color: red; text-align:center; margin-bottom: 20px;">
+    {{ error }}
+  </div>
+{% endif %}
+
+{% if saved_apps %}
+  <style>
+    table {
+      width: 95%;
+      max-width: 1200px;
+      margin: 0 auto 30px auto;
+      border-collapse: collapse;
+      font-family: Arial, sans-serif;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    th, td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f8f8f8;
+      font-size: 16px;
+      color: #222;
+    }
+    tr:nth-child(even) {
+      background-color: #fcfcfc;
+    }
+    tr:hover {
+      background-color: #f2f2f2;
+    }
+    select, button {
+      padding: 6px 10px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    button {
+      color: white;
+      cursor: pointer;
+    }
+    .update-btn {
+      background-color: #007bff;
+    }
+    .update-btn:hover {
+      background-color: #0056b3;
+    }
+    .unsave-btn {
+      background-color: #dc3545;
+    }
+    .unsave-btn:hover {
+      background-color: #c82333;
+    }
+    .status-icon {
+      font-weight: bold;
+      margin-right: 6px;
+      font-size: 16px;
+      vertical-align: middle;
+    }
+    .status-accepted {
+      color: green;
+    }
+    .status-pending {
+      color: orange;
+    }
+    .status-rejected {
+      color: red;
+    }
+  </style>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Job Title</th>
+        <th>Name</th>
+        <th>Applicant Email</th>
+        <th>Status</th>
+        <th>Resume</th>
+        <th>Update Status</th>
+        <th>Unsave</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for app in saved_apps %}
+      <tr>
+        <td>{{ app.job_title }}</td>
+        <td>{{ app.profile_data.name|default:"N/A" }}</td>
+        <td>{{ app.email|default:"N/A" }}</td>
+        <td>
+          {% if app.status == "Accepted" %}
+            <span class="status-icon status-accepted" title="Accepted">&#9679;</span><strong>{{ app.status }}</strong>
+          {% elif app.status == "Pending" %}
+            <span class="status-icon status-pending" title="Pending">&#9679;</span><strong>{{ app.status }}</strong>
+          {% elif app.status == "Rejected" %}
+            <span class="status-icon status-rejected" title="Rejected">&#9679;</span><strong>{{ app.status }}</strong>
+          {% else %}
+            <strong>{{ app.status|default:"-" }}</strong>
+          {% endif %}
+        </td>
+        <td>
+          {% if app.resume_url %}
+            <a href="{{ app.resume_url }}" target="_blank">View Resume</a>
+          {% else %}
+            <span style="color: #999;">Not Provided</span>
+          {% endif %}
+        </td>
+        <td>
+          <form method="post" action="{% url 'update-application-status' app.id %}">
+            {% csrf_token %}
+            <select name="status">
+              <option value="Pending" {% if app.status == "Pending" %}selected{% endif %}>Pending</option>
+              <option value="Accepted" {% if app.status == "Accepted" %}selected{% endif %}>Accept</option>
+              <option value="Rejected" {% if app.status == "Rejected" %}selected{% endif %}>Reject</option>
+            </select>
+            <button type="submit" class="update-btn">Update</button>
+          </form>
+        </td>
+        <td>
+          <form method="post" action="{% url 'unsave-application' app.id %}">
+            {% csrf_token %}
+            <button type="submit" class="unsave-btn">Unsave</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p style="text-align: center;">No saved applications found.</p>
+{% endif %}
+{% endblock %}

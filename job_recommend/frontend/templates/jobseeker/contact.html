@@ -1,0 +1,58 @@
+{% extends 'base/userloginbase.html' %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="text-center py-5" style="background: linear-gradient(to right, #0d47a1, #42a5f5); color: white;">
+  <div class="container">
+    <h1 class="display-5 fw-bold">Contact Us</h1>
+    <p class="lead mt-3">Have a question, suggestion, or need support? We’d love to hear from you!</p>
+  </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="p-5 bg-white shadow-sm rounded-4">
+          <h3 class="text-primary text-center mb-4">Get in Touch</h3>
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="name" class="form-label fw-semibold">Full Name</label>
+              <input type="text" class="form-control rounded-3" id="name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label fw-semibold">Email Address</label>
+              <input type="email" class="form-control rounded-3" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+            <div class="mb-3">
+              <label for="subject" class="form-label fw-semibold">Subject</label>
+              <input type="text" class="form-control rounded-3" id="subject" name="subject" placeholder="Subject of your message" required>
+            </div>
+            <div class="mb-4">
+              <label for="message" class="form-label fw-semibold">Message</label>
+              <textarea class="form-control rounded-3" id="message" name="message" rows="5" placeholder="Type your message here..." required></textarea>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary px-5 py-2 rounded-pill fw-bold">Send Message</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Details -->
+<section class="py-5 text-center">
+  <div class="container">
+    <h5 class="fw-bold text-primary mb-3">Reach Us Directly</h5>
+    <p>Email: <a href="mailto:support@jobconnect.com" class="text-decoration-none text-dark">support@jobconnect.com</a></p>
+    <p>Phone: <a href="tel:+911234567890" class="text-decoration-none text-dark">+91 12345 67890</a></p>
+    <p>Office Hours: Monday to Friday, 9 AM – 6 PM IST</p>
+  </div>
+</section>
+
+{% endblock %}
